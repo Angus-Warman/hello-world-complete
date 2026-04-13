@@ -17,7 +17,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      release_id: ${{ steps.relase_id.outputs.value }}
+      release_id: ${{ steps.release_id.outputs.value }}
     steps:
       - name: Set release ID
         id: release_id
