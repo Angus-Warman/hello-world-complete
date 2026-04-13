@@ -1,0 +1,9 @@
+*
+!*.go
+!go.sum
+!go.mod
+!README.md
+!LICENSE
+!*/
+!.gitignore
+!*.yml

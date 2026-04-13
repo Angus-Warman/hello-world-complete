@@ -39,9 +39,12 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 	now := time.Now()
 
-	res := fmt.Sprintf("Hello World! The time is %v", now)
+	w.Write(getResponse(now))
+}
 
-	w.Write([]byte(res))
+func getResponse(now time.Time) []byte {
+	res := fmt.Sprintf("Hello World! The time is %v", now)
+	return []byte(res)
 }
 
 func getEnvOrDefault(key string, defaultValue string) string {
