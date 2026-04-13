@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,7 +9,18 @@ import (
 	"time"
 )
 
+var version string = "0.0.0"
+
 func main() {
+	v := flag.Bool("v", false, "print version")
+
+	flag.Parse()
+
+	if *v {
+		fmt.Println(version)
+		return
+	}
+
 	log.Println("Starting...")
 
 	port := getEnvOrDefault("PORT", "8080")
