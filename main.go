@@ -1,15 +1,20 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 var version string = "0.0.0"
+var dbConn string
 
 func main() {
 	v := flag.Bool("v", false, "print version")
@@ -23,6 +28,9 @@ func main() {
 
 	log.Println("Starting...")
 
+	godotenv.Load()
+
+	dbConn = getEnvOrDefault("DB_CONN", "")
 	port := getEnvOrDefault("PORT", "8080")
 
 	addr := fmt.Sprintf(":%v", port)
@@ -55,8 +63,42 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func getResponse(now time.Time) []byte {
-	res := fmt.Sprintf("Hello World! The time is %v", now)
+	dbStatus := tryGetDbStatus()
+	res := fmt.Sprintf("Hello World! The time is %v. %v.", now, dbStatus)
 	return []byte(res)
+}
+
+func tryGetDbStatus() string {
+	status, err := getDbStatus()
+
+	if err != nil {
+		return fmt.Sprintf("ERROR: %v", err)
+	}
+
+	return status
+}
+
+func getDbStatus() (string, error) {
+	if dbConn == "" {
+		return "There is no DB_CONN set", nil
+	}
+
+	db, err := sql.Open("postgres", dbConn)
+
+	if err != nil {
+		return "", err
+	}
+
+	var version string
+	err = db.QueryRow("SELECT version()").Scan(&version)
+
+	if err != nil {
+		return "", err
+	}
+
+	status := fmt.Sprintf("Connected to %v", version)
+
+	return status, nil
 }
 
 func getEnvOrDefault(key string, defaultValue string) string {
