@@ -8,12 +8,14 @@ on:
       - "**.md"
       - "docs/**"
       - "LICENCE"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   setup:
+    runs-on: ubuntu-latest
     outputs:
       release_id: ${{ steps.relase_id.outputs.value }}
     steps:
