@@ -39,9 +39,11 @@ func main() {
 
 	addHandlers(mux)
 
+	handler := loggingMiddleware(mux)
+
 	log.Printf("Listening on http://localhost:%v", port)
 
-	err := http.ListenAndServe(addr, mux)
+	err := http.ListenAndServe(addr, handler)
 
 	if err != nil {
 		log.Fatalln(err)
@@ -52,6 +54,14 @@ func addHandlers(mux *http.ServeMux) {
 	mux.HandleFunc("/version", handleVersion)
 	mux.HandleFunc("/ping", handlePing)
 	mux.HandleFunc("/", handleIndex)
+}
+
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		next.ServeHTTP(w, r)
+		log.Printf("%s %s (%s)", r.Method, r.URL.Path, time.Since(start))
+	})
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
