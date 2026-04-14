@@ -15,6 +15,7 @@ import (
 
 var version string = "0.0.0"
 var dbConn string
+var started = time.Now()
 
 func main() {
 	v := flag.Bool("v", false, "print version")
@@ -51,8 +52,7 @@ func main() {
 }
 
 func addHandlers(mux *http.ServeMux) {
-	mux.HandleFunc("/version", handleVersion)
-	mux.HandleFunc("/ping", handlePing)
+	mux.HandleFunc("/about", handleAbout)
 	mux.HandleFunc("/", handleIndex)
 }
 
@@ -124,10 +124,7 @@ func getEnvOrDefault(key string, defaultValue string) string {
 	return value
 }
 
-func handleVersion(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(version))
-}
-
-func handlePing(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("pong"))
+func handleAbout(w http.ResponseWriter, r *http.Request) {
+	res := fmt.Sprintf("Hello World Complete\nversion: %v\nstarted: %v", version, started)
+	w.Write([]byte(res))
 }
