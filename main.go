@@ -50,6 +50,7 @@ func main() {
 
 func addHandlers(mux *http.ServeMux) {
 	mux.HandleFunc("/version", handleVersion)
+	mux.HandleFunc("/ping", handlePing)
 	mux.HandleFunc("/", handleIndex)
 }
 
@@ -114,4 +115,8 @@ func getEnvOrDefault(key string, defaultValue string) string {
 
 func handleVersion(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(version))
+}
+
+func handlePing(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("pong"))
 }
