@@ -9,7 +9,7 @@ SCREEN_NAME=hello-world-complete
 echo "Downloading latest release..."
 curl --no-progress-meter -L $SOURCE_URL -o $TEMP
 echo "Closing previous version..."
-screen -S $SCREEN_NAME -X quit || true
+pkill -f "hello-world-complete"
 mv -f $TEMP $FINAL
 chmod +x $FINAL
 echo "Starting server..."
