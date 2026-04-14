@@ -66,6 +66,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
+		http.NotFound(w, r)
 		return
 	}
 

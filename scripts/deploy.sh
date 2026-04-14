@@ -7,10 +7,10 @@ FINAL=/home/azureuser/hello-world-complete/hello-world-complete_linux_amd64
 SCREEN_NAME=hello-world-complete
 
 echo "Downloading latest release..."
-curl -L $SOURCE_URL -o $TEMP
+curl --no-progress-meter -L $SOURCE_URL -o $TEMP
 echo "Closing previous version..."
 screen -S $SCREEN_NAME -X quit || true
-mv $TEMP $FINAL
+mv -f $TEMP $FINAL
 chmod +x $FINAL
 echo "Starting server..."
 screen -dmS $SCREEN_NAME $FINAL
