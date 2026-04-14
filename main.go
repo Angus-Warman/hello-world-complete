@@ -49,6 +49,7 @@ func main() {
 }
 
 func addHandlers(mux *http.ServeMux) {
+	mux.HandleFunc("/version", handleVersion)
 	mux.HandleFunc("/", handleIndex)
 }
 
@@ -109,4 +110,8 @@ func getEnvOrDefault(key string, defaultValue string) string {
 	}
 
 	return value
+}
+
+func handleVersion(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(version))
 }
