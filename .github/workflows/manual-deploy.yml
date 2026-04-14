@@ -16,4 +16,4 @@ jobs:
         uses: azure/cli@v2
         with:
           azcliversion: latest
-          inlinescript: az vm run-command invoke --resource-group ${{ secrets.AZ_RESOURCEGROUP }} --name ${{ secrets.AZ_VMNAME }} --command-id RunShellScript --scripts "bash /opt/deploy.sh"
+          inlinescript: az vm run-command invoke --resource-group ${{ secrets.AZ_RESOURCEGROUP }} --name ${{ secrets.AZ_VMNAME }} --command-id RunShellScript --scripts "bash /home/azureuser/hello-world-complete/deploy.sh"

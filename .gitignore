@@ -8,3 +8,4 @@
 !.gitignore
 !*.yml
 !Dockerfile
+!*.sh
