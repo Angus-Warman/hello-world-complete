@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZ_CREDENTIALS }}
+
+      - name: Run deploy.sh
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlinescript: az vm run-command invoke --resource-group ${{ secrets.AZ_RESOURCEGROUP }} --name ${{ secrets.AZ_VMNAME }} --command-id RunShellScript --scripts "bash /opt/deploy.sh"
